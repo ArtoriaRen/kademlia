@@ -7,18 +7,15 @@
 #include <vector>
 
 // [...]
-
+#define KADEMLIA_ENABLE_DEBUG
 int main(){
 	//-----------Initialization--------
 	// The session need to know at least one member of the
 	// distributed table to find neighbors.
 	kademlia::endpoint const initial_peer_ipv4{ "127.0.0.1", 27980 };
-	kademlia::endpoint const initial_peer_ipv6{ "::", 27980 };
-	kademlia::endpoint const second_peer_ipv4{ "127.0.0.1", 27981 };
-	kademlia::endpoint const second_peer_ipv6{ "::", 27981 };
+	kademlia::endpoint const second_peer_ipv4{ "127.0.0.1", 27982 };
+	kademlia::endpoint const second_peer_ipv6{ "::", 27982 };
 
-	kademlia::first_session f{ initial_peer_ipv4, initial_peer_ipv6};
-	std::cout << "setting up first peer complete." << std::endl;
 
 	// If an error occurs, this will throw.
 	// Following runtime errors will be reported
@@ -32,9 +29,11 @@ int main(){
 
 	//-----------Saving a data into the table with "key1"---------
 	// Testing data. 
-	std::vector<int> myvector;
-	for (int i=1; i<=5; i++) myvector.push_back(i);
-	kademlia::session::data_type const data{ myvector.begin(), myvector.end() };
+	//kademlia::detail::id const key{ "a" };
+//	kademlia::detail::buffer const data{ 1, 2, 3, 4 };
+		std::vector<int> myvector;
+		for (int i=1; i<=5; i++) myvector.push_back(i);
+		kademlia::session::data_type const data{ myvector.begin(), myvector.end() };
 
 	// Create the handler.
 	/* TODO: the callback functions are not executed due to a empty routing table
@@ -42,32 +41,42 @@ int main(){
 	   measure 2: add another node to the network. */
 	auto on_save = []( std::error_code const& failure )
 	{
-		if ( failure )
+		if ( failure ){
+			std::cout << "failure happened on save" << std::endl;
 			std::cerr << failure.message() << std::endl;
-		std::cout << "saved key1" << std::endl;
+		}else{
+			std::cout << "saved key1" << std::endl;
+		}
 	};
 
 	// And perform the saving.
-	const std::vector<unsigned char> key{'a'};
+	const std::vector<unsigned char> key{'b'};
 	s.async_save( key, data, on_save );
-	std::cout << "saved key1" << std::endl;
+	//	auto res = main_loop_result.get();
+	//	std::cout << "save res =" << res << std::endl;
 
 	//-----------Searching for value associated with "key1"----------
 	// This callback will be called once the load succeed or failed.
 	auto on_load = []( std::error_code const& failure
 			, kademlia::session::data_type const& data )
 	{
-		if ( failure )
+		std::cout << "enter on_load" << std::endl;
+		if ( failure ){
 			std::cerr << failure.message() << std::endl;
-		else
+
+			std::cout << "failure happen on load" << std::endl;
+		}
+		else {
 			std::copy( data.begin(), data.end()
 					, std::ostream_iterator< std::uint32_t >{ std::cout, " " } );
+			std::cout << "finish printing data" << std::endl;
+		}
 	};
 
 	// Schedule an asynchronous load.
 	s.async_load( key, on_load );
-	auto res = main_loop_result.get();
-	std::cout << "res" << res << std::endl;
+	auto res1 = main_loop_result.get();
+	std::cout << "load res" << res1 << std::endl;
 
 
 	//-------------clean up ---------------

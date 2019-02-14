@@ -8,6 +8,8 @@ C++11 distributed hash table library
 
 **This software is experimental and under active development**.
 
+
+
 ### Example
 Initialization:
 ```C++
@@ -82,6 +84,14 @@ Destruction:
 ```
 
 # Development
+### Build 
+mkdir -p build/debug && cd build/debug
+cmake -DCMAKE_BUILD_TYPE=Debug ../..
+make
+
+### Run the example application in the application folder
+g++ -std=c++11 -o example.out example.cpp -I../include ../build/debug/src/kademlia/libkademlia_static.a -lboost_system -lpthread -lcrypto
+
 
 ### Bug and feature requests
 * [Tracker](http://redmine.litchis.fr/projects/kademlia)
