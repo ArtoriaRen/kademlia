@@ -7,14 +7,14 @@
 #include <vector>
 
 // [...]
-#define KADEMLIA_ENABLE_DEBUG
+//#define KADEMLIA_ENABLE_DEBUG
 int main(){
 	//-----------Initialization--------
 	// The session need to know at least one member of the
 	// distributed table to find neighbors.
 	kademlia::endpoint const initial_peer_ipv4{ "127.0.0.1", 27980 };
-	kademlia::endpoint const second_peer_ipv4{ "127.0.0.1", 27982 };
-	kademlia::endpoint const second_peer_ipv6{ "::", 27982 };
+	kademlia::endpoint const second_peer_ipv4{ "127.0.0.1", 12345};
+	kademlia::endpoint const second_peer_ipv6{ "::1", 27983 };
 
 
 	// If an error occurs, this will throw.

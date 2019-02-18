@@ -13,7 +13,7 @@ int main(){
 	// The session need to know at least one member of the
 	// distributed table to find neighbors.
 	kademlia::endpoint const initial_peer_ipv4{ "127.0.0.1", 27980 };
-	kademlia::endpoint const initial_peer_ipv6{ "::", 27981 };
+	kademlia::endpoint const initial_peer_ipv6{ "::1", 27981 };
 
 	kademlia::first_session f{ initial_peer_ipv4, initial_peer_ipv6};
 	std::cout << "setting up first peer complete." << std::endl;
