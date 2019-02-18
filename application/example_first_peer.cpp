@@ -1,6 +1,8 @@
-#include <kademlia/session.hpp>
-#include <kademlia/first_session.hpp>
-#include <kademlia/error.hpp>
+#include "kademlia/endpoint.hpp"
+#include "kademlia/session_base.hpp"
+#include "kademlia/session.hpp"
+#include "kademlia/first_session.hpp"
+#include "kademlia/error.hpp"
 #include <future>
 #include <iostream>
 #include <iterator>
